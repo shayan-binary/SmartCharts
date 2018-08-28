@@ -205,6 +205,8 @@
 
         console.log(os, name, version);
 
+        console.log(SupportedBrowser[os]);
+
         if (SupportedBrowser[os] && SupportedBrowser[os][name]) {
             console.log((version < SupportedBrowser[os][name]) ? 'error' : 'success');
         } else {
