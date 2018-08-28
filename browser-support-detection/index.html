@@ -198,10 +198,31 @@
             SupportedBrowser[os] && 
             SupportedBrowser[os][name] !== undefined) {
             if(version < SupportedBrowser[os][name]){
-                // not supported
-                console.log('not supported');
-            }else{
-                console.log('supported');
+                var cqNotSupported = document.createElement('div');
+                cqNotSupported.className = 'cq-not-supported';
+
+                var cqLogo = document.createElement('div');
+                cqLogo.className = 'cq-logo';
+                cqNotSupported.append(cqLogo);
+
+                var cqIconNotSupported = document.createElement('div');
+                cqIconNotSupported.className = 'cq-icon-not-supported';
+                cqNotSupported.append(cqIconNotSupported);
+
+                var cqH1 = document.createElement('h1');
+                cqH1.innerHTML = 'YOUR BROWSER IS NOT SUPPORTED';
+                cqNotSupported.append(cqH1);
+
+                var cqP = document.createElement('p');
+                cqP.innerHTML = 'Please update your browser for the best trading experience.';
+                cqNotSupported.append(cqP);
+
+                var cqA = document.createElement('a');
+                cqA.href = 'http://outdatedbrowser.com/';
+                cqA.innerHTML = 'Update Browser';
+                cqNotSupported.append(cqA);
+
+                document.getElementById('root').append(cqNotSupported);
             }
         } else {
             console.log('not detected');
