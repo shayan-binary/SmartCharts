@@ -31,8 +31,6 @@
       if (typeof navigator !== 'undefined') {
         return parseUserAgent(navigator.userAgent);
       }
-
-      return getNodeVersion();
     }
 
     function detectOS(userAgentString) {
@@ -202,6 +200,8 @@
             if(version < SupportedBrowser[os][name]){
                 // not supported
                 console.log('not supported');
+            }else{
+                console.log('supported');
             }
         } else {
             console.log('not detected');
