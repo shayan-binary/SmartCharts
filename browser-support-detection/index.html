@@ -212,7 +212,7 @@
         cqA.innerHTML = 'Update Browser';
         cqNotSupported.appendChild(cqA);
         
-        document.getElementById('root').appendChild(cqNotSupported);
+        document.getElementById('root').replaceChild(cqNotSupported);
 
     }
 
@@ -223,9 +223,6 @@
     window.onerror = function(){
         console.log('window.onerror');
         renderNotSupported();
-        alert('not supported');
-        // and then, use this to trigger the error:
-        throw new FatalError("Something went badly wrong!");
     }
 
 
