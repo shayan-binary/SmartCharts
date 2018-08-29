@@ -225,16 +225,16 @@
             SupportedBrowser[os] && 
             SupportedBrowser[os][name] !== undefined) {
             if(version < SupportedBrowser[os][name]){
-                alert('not supported');
                 renderNotSupported();
+                alert('not supported');
             }
         } else {
             console.log('not detected');
         }
     }
     window.onerror = function(){
-        alert('not supported');
         renderNotSupported();
+        alert('not supported');
     }
 </script>
 <script src="./dist/babel-polyfill.min.js?45b9836b"></script>
