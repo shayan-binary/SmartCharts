@@ -230,8 +230,11 @@
             console.log(version , SupportedBrowser[os][name], version < SupportedBrowser[os][name]);
 
             if(version < SupportedBrowser[os][name]){
-                // alert('not supported');
-                throw new Error("Something went badly wrong!");
+                console.log('not supported');
+                renderNotSupported();
+
+                alert('not supported');
+                //throw new Error("Something went badly wrong!");
             }
         } else {
             console.log('not detected');
