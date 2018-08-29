@@ -26,10 +26,39 @@
 <body>
 <div id="root"></div>
 <script type="text/javascript">
-    //some special code to handle browser detection
     function detect() {
       if (typeof navigator !== 'undefined') {
-        return parseUserAgent(navigator.userAgent);
+          var userAgentString = navigator.userAgent;
+          var browsers = getBrowserRules();
+          if (!userAgentString) {
+            return null;
+          }
+
+          var detected = browsers.map(function(browser) {
+            var match = browser.rule.exec(userAgentString);
+            var version = match && match[1].split(/[._]/).slice(0,3);
+
+            if (version && version.length < 3) {
+              version = version.concat(version.length == 1 ? [0, 0] : [0]);
+            }
+
+            return match && {
+              name: browser.name,
+              version: version.join('.')
+            };
+          }).filter(Boolean)[0] || null;
+
+          if (detected) {
+            detected.os = detectOS(userAgentString);
+          }
+
+          if (/alexa|bot|crawl(er|ing)|facebookexternalhit|feedburner|google web preview|nagios|postrank|pingdom|slurp|spider|yahoo!|yandex/i.test(userAgentString)) {
+            detected = detected || {};
+            detected.bot = true;
+          }
+
+          return detected;
+
       }
     }
 
@@ -49,38 +78,6 @@
         version: process.version.slice(1),
         os: process.platform
       };
-    }
-
-    function parseUserAgent(userAgentString) {
-      var browsers = getBrowserRules();
-      if (!userAgentString) {
-        return null;
-      }
-
-      var detected = browsers.map(function(browser) {
-        var match = browser.rule.exec(userAgentString);
-        var version = match && match[1].split(/[._]/).slice(0,3);
-
-        if (version && version.length < 3) {
-          version = version.concat(version.length == 1 ? [0, 0] : [0]);
-        }
-
-        return match && {
-          name: browser.name,
-          version: version.join('.')
-        };
-      }).filter(Boolean)[0] || null;
-
-      if (detected) {
-        detected.os = detectOS(userAgentString);
-      }
-
-      if (/alexa|bot|crawl(er|ing)|facebookexternalhit|feedburner|google web preview|nagios|postrank|pingdom|slurp|spider|yahoo!|yandex/i.test(userAgentString)) {
-        detected = detected || {};
-        detected.bot = true;
-      }
-
-      return detected;
     }
 
     function getBrowserRules() {
@@ -188,6 +185,7 @@
         },
     };
     function renderNotSupported(){
+        var cqRoot = document.getElementById('root');
         var cqNotSupported = document.createElement('div');
         cqNotSupported.className = 'cq-not-supported';
 
@@ -212,22 +210,24 @@
         cqA.innerHTML = 'Update Browser';
         cqNotSupported.appendChild(cqA);
         
-        var cqRoot = document.getElementById('root');
         if (cqRoot.nextSibling) {
             cqRoot.parentNode.insertBefore(cqNotSupported, cqRoot.nextSibling);
         } else {
             cqRoot.parentNode.appendChild(cqNotSupported);
         }
-        return cqRoot.parentNode.removeChild(cqRoot);
+        
+
+        cqRoot.parentNode.removeChild(cqRoot);
     }
 
     // creates a new exception type:
     function FatalError(){ Error.apply(this, arguments); this.name = "FatalError"; }
     FatalError.prototype = Object.create(Error.prototype);
 
-    window.onerror = function(){
-        console.log('window.onerror');
-        renderNotSupported();
+    window.onerror = function(message, source, lineno, colno, error){
+        console.log('onerror' , message, source, lineno, colno, error);
+        var cqRoot = document.getElementById('root');
+        if(cqRoot){renderNotSupported();}
     }
 
 
@@ -244,8 +244,7 @@
             console.log(version , SupportedBrowser[os][name], version < SupportedBrowser[os][name]);
 
             if(version < SupportedBrowser[os][name]){
-                console.log('not supported');
-                throw new Error("Something went badly wrong!");
+                throw new Error('NOTSUPPORTED');
             }
         } else {
             console.log('not detected');
