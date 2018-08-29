@@ -216,6 +216,19 @@
 
     }
 
+    // creates a new exception type:
+    function FatalError(){ Error.apply(this, arguments); this.name = "FatalError"; }
+    FatalError.prototype = Object.create(Error.prototype);
+
+    window.onerror = function(){
+        console.log('window.onerror');
+        renderNotSupported();
+        alert('not supported');
+        // and then, use this to trigger the error:
+        throw new FatalError("Something went badly wrong!");
+    }
+
+
     var browser = detect();
     if (browser) {
         var version = parseInt(browser.version.split('.').join(''));
@@ -235,18 +248,6 @@
         } else {
             console.log('not detected');
         }
-    }
-    
-    // creates a new exception type:
-    function FatalError(){ Error.apply(this, arguments); this.name = "FatalError"; }
-    FatalError.prototype = Object.create(Error.prototype);
-
-    window.onerror = function(){
-        console.log('window.onerror');
-        renderNotSupported();
-        alert('not supported');
-        // and then, use this to trigger the error:
-        throw new FatalError("Something went badly wrong!");
     }
 </script>
 <script src="./dist/babel-polyfill.min.js?45b9836b"></script>
