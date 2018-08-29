@@ -221,12 +221,16 @@
         var name = browser.name;
         var os = browser.os;
 
+        console.log(os, name, version);
+
         if (
             SupportedBrowser[os] && 
             SupportedBrowser[os][name] !== undefined) {
+            console.log(SupportedBrowser[os][name]);
+
             if(version < SupportedBrowser[os][name]){
-                renderNotSupported();
                 alert('not supported');
+                throw new Error("Something went badly wrong!");
             }
         } else {
             console.log('not detected');
