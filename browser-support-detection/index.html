@@ -226,7 +226,8 @@
         if (
             SupportedBrowser[os] && 
             SupportedBrowser[os][name] !== undefined) {
-            console.log(SupportedBrowser[os][name]);
+            
+            console.log(version , SupportedBrowser[os][name], version < SupportedBrowser[os][name]);
 
             if(version < SupportedBrowser[os][name]){
                 alert('not supported');
