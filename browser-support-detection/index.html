@@ -187,7 +187,7 @@
             yandexbrowser: 14122130,
         },
     };
-    function RenderNotSupported(){
+    function renderNotSupported(){
         var cqNotSupported = document.createElement('div');
         cqNotSupported.className = 'cq-not-supported';
 
@@ -225,14 +225,16 @@
             SupportedBrowser[os] && 
             SupportedBrowser[os][name] !== undefined) {
             if(version < SupportedBrowser[os][name]){
-                RenderNotSupported();
+                alert('not supported');
+                renderNotSupported();
             }
         } else {
             console.log('not detected');
         }
     }
     window.onerror = function(){
-        RenderNotSupported();
+        alert('not supported');
+        renderNotSupported();
     }
 </script>
 <script src="./dist/babel-polyfill.min.js?45b9836b"></script>
