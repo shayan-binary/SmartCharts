@@ -174,7 +174,7 @@
         },
         'Windows 8': {
             ie: 0, // not supported at all
-            firefox: 2700,
+            firefox: 2800,
             chrome: 4902623,
             opera: 3602130,
             yandexbrowser: 14122130,
@@ -217,7 +217,7 @@
 
     var browser = detect();
     if (browser) {
-        var version = browser.version.split('.').join('');
+        var version = parseInt(browser.version.split('.').join(''));
         var name = browser.name;
         var os = browser.os;
 
