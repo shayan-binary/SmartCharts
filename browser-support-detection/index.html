@@ -212,8 +212,13 @@
         cqA.innerHTML = 'Update Browser';
         cqNotSupported.appendChild(cqA);
         
-        document.getElementById('root').replaceWith(cqNotSupported);
-
+        var parentGuest = document.getElementById('root');
+        if (parentGuest.nextSibling) {
+            parentGuest.parentNode.insertBefore(cqNotSupported, parentGuest.nextSibling);
+        }
+        else {
+            parentGuest.parentNode.appendChild(cqNotSupported);
+        }
     }
 
     // creates a new exception type:
