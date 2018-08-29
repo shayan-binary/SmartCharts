@@ -212,13 +212,13 @@
         cqA.innerHTML = 'Update Browser';
         cqNotSupported.appendChild(cqA);
         
-        var parentGuest = document.getElementById('root');
-        if (parentGuest.nextSibling) {
-            parentGuest.parentNode.insertBefore(cqNotSupported, parentGuest.nextSibling);
+        var cqRoot = document.getElementById('root');
+        if (cqRoot.nextSibling) {
+            cqRoot.parentNode.insertBefore(cqNotSupported, cqRoot.nextSibling);
+        } else {
+            cqRoot.parentNode.appendChild(cqNotSupported);
         }
-        else {
-            parentGuest.parentNode.appendChild(cqNotSupported);
-        }
+        return cqRoot.parentNode.removeChild(cqRoot);
     }
 
     // creates a new exception type:
