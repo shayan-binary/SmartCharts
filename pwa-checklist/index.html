@@ -36,5 +36,12 @@
 <script src="./dist/mobx-react.js?9120bc26"></script>
 <script src="./dist/smartcharts.js?2f6a8ec3"></script>
 <script>
-  if('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./dist/sw.js?8e22ef7a
+if('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/dist/sw.js')
+      .then(function() {
+            console.log('Service Worker Registered');
+      });
+}
+</script>
+</body>
+</html>

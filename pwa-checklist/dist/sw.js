@@ -1,4 +1,4 @@
-var cacheName = 'hello-world-page';
+var cacheName = 'SmartCharts';
 var filesToCache = [
   '/',
   '/index.html',
