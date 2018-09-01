@@ -2,11 +2,11 @@
   "name": "SmartCharts | Binary.com",
   "short_name": "SmartCharts",
   "icons": [{
-    "src": "dist/sass/favicons/apple-touch-icon-57x57.png",
+    "src": "/dist/sass/favicons/apple-touch-icon-57x57.png",
       "sizes": "57x57",
       "type": "image/png"
     }, {
-      "src": "dist/sass/favicons/apple-touch-icon-114x114.png",
+      "src": "/dist/sass/favicons/apple-touch-icon-114x114.png",
       "sizes": "144x144",
       "type": "image/png"
     }
