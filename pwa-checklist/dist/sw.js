@@ -1,16 +1,16 @@
 var cacheName = 'SmartCharts';
 var filesToCache = [
-  'https://shayanbinary.binary.sx/pwa-checklist/',
-  'https://shayanbinary.binary.sx/pwa-checklist/index.html',
-  'https://shayanbinary.binary.sx/pwa-checklist/dist/smartcharts.css',
-  'https://shayanbinary.binary.sx/pwa-checklist/dist/babel-polyfill.min.js',
-  'https://shayanbinary.binary.sx/pwa-checklist/dist/chartiq.min.js',
-  'https://shayanbinary.binary.sx/pwa-checklist/dist/react.js',
-  'https://shayanbinary.binary.sx/pwa-checklist/dist/react-dom.js',
-  'https://shayanbinary.binary.sx/pwa-checklist/dist/react-transition-group.js',
-  'https://shayanbinary.binary.sx/pwa-checklist/dist/mobx.js',
-  'https://shayanbinary.binary.sx/pwa-checklist/dist/mobx-react.js',
-  'https://shayanbinary.binary.sx/pwa-checklist/dist/smartcharts.js'
+  './',
+  './index.html',
+  './dist/smartcharts.css',
+  './dist/babel-polyfill.min.js',
+  './dist/chartiq.min.js',
+  './dist/react.js',
+  './dist/react-dom.js',
+  './dist/react-transition-group.js',
+  './dist/mobx.js',
+  './dist/mobx-react.js',
+  './dist/smartcharts.js'
 ];
 
 self.addEventListener('install', function(e) {
