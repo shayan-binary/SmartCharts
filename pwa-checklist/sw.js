@@ -1,15 +1,15 @@
 var cacheName = 'SmartCharts';
 var filesToCache = [
-  '/pwa-checklist/index.html',
-  '/pwa-checklist/dist/smartcharts.css',
-  '/pwa-checklist/dist/babel-polyfill.min.js',
-  '/pwa-checklist/dist/chartiq.min.js',
-  '/pwa-checklist/dist/react.js',
-  '/pwa-checklist/dist/react-dom.js',
-  '/pwa-checklist/dist/react-transition-group.js',
-  '/pwa-checklist/dist/mobx.js',
-  '/pwa-checklist/dist/mobx-react.js',
-  '/pwa-checklist/dist/smartcharts.js'
+  '/index.html',
+  '/dist/smartcharts.css',
+  '/dist/babel-polyfill.min.js',
+  '/dist/chartiq.min.js',
+  '/dist/react.js',
+  '/dist/react-dom.js',
+  '/dist/react-transition-group.js',
+  '/dist/mobx.js',
+  '/dist/mobx-react.js',
+  '/dist/smartcharts.js'
 ];
 
 
