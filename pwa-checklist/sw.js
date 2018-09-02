@@ -1,21 +1,19 @@
 var cacheName = 'SmartCharts';
-var pathname = window.location.pathname;
 var filesToCache = [
-  '/index.html',
-  '/dist/smartcharts.css',
-  '/dist/babel-polyfill.min.js',
-  '/dist/chartiq.min.js',
-  '/dist/react.js',
-  '/dist/react-dom.js',
-  '/dist/react-transition-group.js',
-  '/dist/mobx.js',
-  '/dist/mobx-react.js',
-  '/dist/smartcharts.js'
+  './index.html',
+  './dist/smartcharts.css',
+  './dist/babel-polyfill.min.js',
+  './dist/chartiq.min.js',
+  './dist/react.js',
+  './dist/react-dom.js',
+  './dist/react-transition-group.js',
+  './dist/mobx.js',
+  './dist/mobx-react.js',
+  './dist/smartcharts.js'
 ];
 
+
 self.addEventListener('install', function(e) {
-  console.log(filesToCache);
-  console.log(e.currentTarget.filesToCache);
   console.log('[ServiceWorker] Install', e);
   e.waitUntil(
     caches.open(cacheName).then(function(cache) {
