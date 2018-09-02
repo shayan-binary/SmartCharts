@@ -23,14 +23,15 @@ self.addEventListener('install', function(e) {
   );
 });
 
-self.addEventListener('activate',  event => {
+self.addEventListener('activate', function(event){
+  console.log('activate', event);
   event.waitUntil(self.clients.claim());
 });
 
-self.addEventListener('fetch', event => {
+self.addEventListener('fetch', function(event){
   console.log('fetch');
   event.respondWith(
-    caches.match(event.request, {ignoreSearch:true}).then(response => {
+    caches.match(event.request, {ignoreSearch:true}).then(function(response){
       return response || fetch(event.request);
     })
   );
