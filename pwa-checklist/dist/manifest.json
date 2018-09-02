@@ -19,7 +19,7 @@
       "type": "image/png"
     }
   ],
-  "start_url": "./index.html",
+  "start_url": "https://shayanbinary.binary.sx/pwa-checklist/",
   "display": "standalone",
   "background_color": "#FF9800",
   "theme_color": "#FF9800"
