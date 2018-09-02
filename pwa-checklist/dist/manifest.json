@@ -6,12 +6,12 @@
       "sizes": "57x57",
       "type": "image/png"
     },{
-      "src": "/dist/sass/favicons/apple-touch-icon-192x192.png",
+      "src": "/dist/sass/favicons/favicon-192x192.png",
       "sizes": "192x192",
       "type": "image/png"
     }, {
       "src": "/dist/sass/favicons/apple-touch-icon-114x114.png",
-      "sizes": "144x144",
+      "sizes": "114x114",
       "type": "image/png"
     }, {
       "src": "/dist/sass/favicons/apple-touch-icon-114x114.png",
@@ -19,7 +19,7 @@
       "type": "image/png"
     }
   ],
-  "start_url": "https://shayanbinary.binary.sx/pwa-checklist/",
+  "start_url": "/pwa-checklist/index.html",
   "display": "standalone",
   "background_color": "#FF9800",
   "theme_color": "#FF9800"
