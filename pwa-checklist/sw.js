@@ -12,7 +12,6 @@ var filesToCache = [
   './dist/smartcharts.js'
 ];
 
-
 self.addEventListener('install', function(e) {
   console.log('[ServiceWorker] Install');
   e.waitUntil(
