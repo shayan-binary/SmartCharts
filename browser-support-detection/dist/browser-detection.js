@@ -124,16 +124,13 @@ function browserDetect(rootEleId, SupportedBrowsers){
 
     function renderNotSupported(){
         var cqNotSupported = document.createElement('div');
-        cqNotSupported.className = 'cq-not-supported';
         cqNotSupported.style = 'background:#fff url("./dist/app/assets/bg-not-supported.svg") repeat scroll center center;position:fixed;width:100%;height:100%;font-family:"Roboto";font-style:normal;line-height:1.5;letter-spacing:normal;text-align:center;color:#333333;';
 
         var cqLogo = document.createElement('div');
-        cqLogo.className = 'cq-logo';
         cqLogo.style = 'background:url("./dist/app/assets/binary-logo.svg") no-repeat scroll center center;width:139px;height:32px;margin-bottom:8%;padding:20px;';
         cqNotSupported.appendChild(cqLogo);
 
         var cqIconNotSupported = document.createElement('div');
-        cqIconNotSupported.className = 'cq-icon-not-supported';
         cqIconNotSupported.style = 'background:url("./dist/app/assets/icon-not-supported.svg") no-repeat scroll center center / 160px 160px;width:160px;height:160px;margin:auto;';
         cqNotSupported.appendChild(cqIconNotSupported);
 
