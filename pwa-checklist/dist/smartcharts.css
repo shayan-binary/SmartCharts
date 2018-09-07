@@ -208,7 +208,7 @@ html,body{-ms-touch-action:none;margin:0px}
 .stx_yaxis,.stx_xaxis,.stx_xaxis_dark{font-size:10px;font-family:'Roboto'}
 .smartcharts-light .stx_yaxis,.smartcharts-light .stx_xaxis,.smartcharts-light .stx_xaxis_dark{color:#d2d3da}
 .smartcharts-dark .stx_yaxis,.smartcharts-dark .stx_xaxis,.smartcharts-dark .stx_xaxis_dark{color:#aaacba}
-.cq-down{color:#f95454;font-size:15px}
+.cq-down{color:#f95454}
 .cq-up{color:#4caf50}
 .stx-holder:hover .stx-btn-panel{opacity:1;transition:opacity 0.5s, height 0.3s}
 .stx-ico-handle{opacity:1;position:absolute;left:0%;height:1px;width:100%;overflow:hidden;cursor:ns-resize;z-index:20}
