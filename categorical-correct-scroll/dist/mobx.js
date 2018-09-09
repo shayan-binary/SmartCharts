@@ -95,7 +95,7 @@ Object.freeze(EMPTY_OBJECT$$1);
 function getNextId$$1() {
     return ++globalState$$1.mobxGuid;
 }
-function fail$1(message) {
+function fail$$1(message) {
     invariant$$1(false, message);
     throw "X"; // unreachable
 }
@@ -103,7 +103,23 @@ function invariant$$1(check, message) {
     if (!check)
         throw new Error("[mobx] " + (message || OBFUSCATED_ERROR$$1));
 }
-
+/**
+ * Prints a deprecation message, but only one time.
+ * Returns false if the deprecated message was already printed before
+ */
+var deprecatedMessages = [];
+function deprecated$$1(msg, thing) {
+    if (process.env.NODE_ENV === "production")
+        return false;
+    if (thing) {
+        return deprecated$$1("'" + msg + "', use '" + thing + "' instead.");
+    }
+    if (deprecatedMessages.indexOf(msg) !== -1)
+        return false;
+    deprecatedMessages.push(msg);
+    console.error("[mobx] Deprecated: " + msg);
+    return true;
+}
 /**
  * Makes sure that the provided function is invoked at most once.
  */
@@ -157,7 +173,7 @@ function isPropertyConfigurable$$1(object, prop) {
 }
 function assertPropertyConfigurable$$1(object, prop) {
     if (process.env.NODE_ENV !== "production" && !isPropertyConfigurable$$1(object, prop))
-        fail$1("Cannot make property '" + prop.toString() + "' observable, it is not configurable and writable in the target object");
+        fail$$1("Cannot make property '" + prop.toString() + "' observable, it is not configurable and writable in the target object");
 }
 function createInstanceofPredicate$$1(name, clazz) {
     var propName = "isMobX" + name;
@@ -185,7 +201,7 @@ function getMapLikeKeys$$1(map) {
         });
     if (isES6Map$$1(map) || isObservableMap$$1(map))
         return Array.from(map.keys());
-    return fail$1("Cannot get keys from '" + map + "'");
+    return fail$$1("Cannot get keys from '" + map + "'");
 }
 function toPrimitive$$1(value) {
     return value === null ? null : typeof value === "object" ? "" + value : value;
@@ -302,7 +318,7 @@ function createPropDecorator$$1(propertyInitiallyEnumerable, propertyCreator) {
                 return null;
             }
             if (process.env.NODE_ENV !== "production" && !quacksLikeADecorator$$1(arguments))
-                fail$1("This function is a decorator, but it wasn't invoked like a decorator");
+                fail$$1("This function is a decorator, but it wasn't invoked like a decorator");
             if (!Object.prototype.hasOwnProperty.call(target, mobxPendingDecorators$$1)) {
                 var inheritedDecorators = target[mobxPendingDecorators$$1];
                 addHiddenProp$$1(target, mobxPendingDecorators$$1, __assign({}, inheritedDecorators));
@@ -357,7 +373,7 @@ function shallowEnhancer$$1(v, _, name) {
         return observable$$1.object(v, undefined, { name: name, deep: false });
     if (isES6Map$$1(v))
         return observable$$1.map(v, { name: name, deep: false });
-    return fail$1(process.env.NODE_ENV !== "production" &&
+    return fail$$1(process.env.NODE_ENV !== "production" &&
         "The shallow modifier / decorator can only used in combination with arrays, objects and maps");
 }
 function referenceEnhancer$$1(newValue) {
@@ -392,7 +408,7 @@ function createDecoratorForEnhancer$$1(enhancer) {
             // This wrapper function is just to detect illegal decorator invocations, deprecate in a next version
             // and simply return the created prop decorator
             if (arguments.length < 2)
-                return fail$1("Incorrect decorator invocation. @observable decorator doesn't expect any arguments");
+                return fail$$1("Incorrect decorator invocation. @observable decorator doesn't expect any arguments");
             return decorator.apply(null, arguments);
         }
         : decorator;
@@ -411,7 +427,7 @@ var defaultCreateObservableOptions$$1 = {
 Object.freeze(defaultCreateObservableOptions$$1);
 function assertValidOption(key) {
     if (!/^(deep|name|defaultDecorator|proxy)$/.test(key))
-        fail$1("invalid option for (extend)observable: " + key);
+        fail$$1("invalid option for (extend)observable: " + key);
 }
 function asCreateObservableOptions$$1(thing) {
     if (thing === null || thing === undefined)
@@ -420,7 +436,7 @@ function asCreateObservableOptions$$1(thing) {
         return { name: thing, deep: true, proxy: true };
     if (process.env.NODE_ENV !== "production") {
         if (typeof thing !== "object")
-            return fail$1("expected options object");
+            return fail$$1("expected options object");
         Object.keys(thing).forEach(assertValidOption);
     }
     return thing;
@@ -460,7 +476,7 @@ function createObservable(v, arg2, arg3) {
     if (res !== v)
         return res;
     // otherwise, just box it
-    fail$1(process.env.NODE_ENV !== "production" &&
+    fail$$1(process.env.NODE_ENV !== "production" &&
         "The provided value could not be converted into an observable. If you want just create an observable reference to the object use 'observable.box(value)'");
 }
 var observableFactories = {
@@ -506,7 +522,7 @@ var observable$$1 = createObservable;
 // weird trick to keep our typings nicely with our funcs, and still extend the observable function
 Object.keys(observableFactories).forEach(function (name) { return (observable$$1[name] = observableFactories[name]); });
 function incorrectlyUsedAsDecorator(methodName) {
-    fail$1(
+    fail$$1(
     // process.env.NODE_ENV !== "production" &&
     "Expected one or two arguments to observable." + methodName + ". Did you accidentally try to use observable." + methodName + " as decorator?");
 }
@@ -550,7 +566,7 @@ function createAction$$1(actionName, fn) {
     if (process.env.NODE_ENV !== "production") {
         invariant$$1(typeof fn === "function", "`action` can only be invoked on functions");
         if (typeof actionName !== "string" || !actionName)
-            fail$1("actions should have valid names, got: '" + actionName + "'");
+            fail$$1("actions should have valid names, got: '" + actionName + "'");
     }
     var res = function () {
         return executeAction$$1(actionName, fn, this, arguments);
@@ -803,7 +819,7 @@ var ComputedValue$$1 = /** @class */ (function () {
             autorun$$1(function () { return _this.get(); });
         }
         if (this.isComputing)
-            fail$1("Cycle detected in computation " + this.name + ": " + this.derivation);
+            fail$$1("Cycle detected in computation " + this.name + ": " + this.derivation);
         if (globalState$$1.inBatch === 0 && this.observers.size === 0) {
             if (shouldCompute$$1(this)) {
                 this.warnAboutUntrackedRead();
@@ -917,7 +933,7 @@ var ComputedValue$$1 = /** @class */ (function () {
         if (process.env.NODE_ENV === "production")
             return;
         if (this.requiresReaction === true) {
-            fail$1("[mobx] Computed value " + this.name + " is read outside a reactive context");
+            fail$$1("[mobx] Computed value " + this.name + " is read outside a reactive context");
         }
         if (this.isTracing !== TraceMode$$1.NONE) {
             console.log("[mobx.trace] '" + this.name + "' is being read outside a reactive context. Doing a full recompute");
@@ -1045,11 +1061,11 @@ function checkIfStateModificationsAreAllowed$$1(atom) {
     var hasObservers$$1 = atom.observers.size > 0;
     // Should never be possible to change an observed observable from inside computed, see #798
     if (globalState$$1.computationDepth > 0 && hasObservers$$1)
-        fail$1(process.env.NODE_ENV !== "production" &&
+        fail$$1(process.env.NODE_ENV !== "production" &&
             "Computed values are not allowed to cause side effects by changing observables that are already being observed. Tried to modify: " + atom.name);
     // Should not be possible to change observed state outside strict mode, except during initialization, see #563
     if (!globalState$$1.allowStateChanges && (hasObservers$$1 || globalState$$1.enforceActions === "strict"))
-        fail$1(process.env.NODE_ENV !== "production" &&
+        fail$$1(process.env.NODE_ENV !== "production" &&
             (globalState$$1.enforceActions
                 ? "Since strict-mode is enabled, changing observed observable values outside actions is not allowed. Please wrap the code in an `action` if this change is intended. Tried to modify: "
                 : "Side effects like changing state are not allowed at this point. Are you trying to modify state from, for example, the render function of a React component? Tried to modify: ") +
@@ -1200,6 +1216,9 @@ var MobXGlobals$$1 = /** @class */ (function () {
          * MobXGlobals version.
          * MobX compatiblity with other versions loaded in memory as long as this version matches.
          * It indicates that the global state still stores similar information
+         *
+         * N.B: this version is unrelated to the package version of MobX, and is only the version of the
+         * internal state storage of MobX, and can be the same across many different package versions
          */
         this.version = 5;
         /**
@@ -1267,26 +1286,42 @@ var MobXGlobals$$1 = /** @class */ (function () {
     }
     return MobXGlobals$$1;
 }());
-var globalState$$1 = new MobXGlobals$$1();
-var runInIsolationCalled = false;
-{
-    var global_1 = getGlobal$$1();
-    if (!global_1.__mobxInstanceCount) {
-        global_1.__mobxInstanceCount = 1;
-    }
-    else {
-        global_1.__mobxInstanceCount++;
+var canMergeGlobalState = true;
+var isolateCalled = false;
+var globalState$$1 = (function () {
+    var global = getGlobal$$1();
+    if (global.__mobxInstanceCount > 0 && !global.__mobxGlobals)
+        canMergeGlobalState = false;
+    if (global.__mobxGlobals && global.__mobxGlobals.version !== new MobXGlobals$$1().version)
+        canMergeGlobalState = false;
+    if (!canMergeGlobalState) {
         setTimeout(function () {
-            if (!runInIsolationCalled) {
-                fail$1(process.env.NODE_ENV !== "production" &&
-                    "There are multiple mobx instances active. This might lead to unexpected results. See https://github.com/mobxjs/mobx/issues/1082 for details.");
+            if (!isolateCalled) {
+                fail$$1("There are multiple, different versions of MobX active. Make sure MobX is loaded only once or use `configure({ isolateGlobalState: true })`");
             }
         }, 1);
+        return new MobXGlobals$$1();
     }
-}
+    else if (global.__mobxGlobals) {
+        global.__mobxInstanceCount += 1;
+        return global.__mobxGlobals;
+    }
+    else {
+        global.__mobxInstanceCount = 1;
+        return (global.__mobxGlobals = new MobXGlobals$$1());
+    }
+})();
 function isolateGlobalState$$1() {
-    runInIsolationCalled = true;
-    getGlobal$$1().__mobxInstanceCount--;
+    if (globalState$$1.pendingReactions.length ||
+        globalState$$1.inBatch ||
+        globalState$$1.isRunningReactions)
+        fail$$1("isolateGlobalState should be called before MobX is running any reactions");
+    isolateCalled = true;
+    if (canMergeGlobalState) {
+        if (--getGlobal$$1().__mobxInstanceCount === 0)
+            getGlobal$$1().__mobxGlobals = undefined;
+        globalState$$1 = new MobXGlobals$$1();
+    }
 }
 function getGlobalState$$1() {
     return globalState$$1;
@@ -1724,13 +1759,13 @@ function spy$$1(listener) {
 }
 
 function dontReassignFields() {
-    fail$1(process.env.NODE_ENV !== "production" && "@action fields are not reassignable");
+    fail$$1(process.env.NODE_ENV !== "production" && "@action fields are not reassignable");
 }
 function namedActionDecorator$$1(name) {
     return function (target, prop, descriptor) {
         if (descriptor) {
             if (process.env.NODE_ENV !== "production" && descriptor.get !== undefined) {
-                return fail$1("@action cannot be used with getters");
+                return fail$$1("@action cannot be used with getters");
             }
             // babel / typescript
             // @action method() { }
@@ -1832,7 +1867,7 @@ function runInAction$$1(arg1, arg2) {
     if (process.env.NODE_ENV !== "production") {
         invariant$$1(typeof fn === "function" && fn.length === 0, "`runInAction` expects a function without arguments");
         if (typeof actionName !== "string" || !actionName)
-            fail$1("actions should have valid names, got: '" + actionName + "'");
+            fail$$1("actions should have valid names, got: '" + actionName + "'");
     }
     return executeAction$$1(actionName, fn, this, undefined);
 }
@@ -1960,7 +1995,7 @@ function interceptHook(hook, thing, arg2, arg3) {
     var cb = typeof arg2 === "string" ? arg3 : arg2;
     var orig = atom[hook];
     if (typeof orig !== "function")
-        return fail$1(process.env.NODE_ENV !== "production" && "Not an atom that can be (un)observed");
+        return fail$$1(process.env.NODE_ENV !== "production" && "Not an atom that can be (un)observed");
     atom[hook] = function () {
         orig.call(this);
         cb.call(this);
@@ -1973,11 +2008,27 @@ function interceptHook(hook, thing, arg2, arg3) {
 function configure$$1(options) {
     var enforceActions = options.enforceActions, computedRequiresReaction = options.computedRequiresReaction, disableErrorBoundaries = options.disableErrorBoundaries, reactionScheduler = options.reactionScheduler;
     if (enforceActions !== undefined) {
-        if (typeof enforceActions !== "boolean" && enforceActions !== "strict")
-            return fail("Invalid configuration for 'enforceActions': " + enforceActions);
-        globalState$$1.enforceActions = enforceActions;
-        globalState$$1.allowStateChanges =
-            enforceActions === true || enforceActions === "strict" ? false : true;
+        if (typeof enforceActions === "boolean" || enforceActions === "strict")
+            deprecated$$1("Deprecated value for 'enforceActions', use 'false' => '\"never\"', 'true' => '\"observed\"', '\"strict\"' => \"'always'\" instead");
+        var ea = void 0;
+        switch (enforceActions) {
+            case true:
+            case "observed":
+                ea = true;
+                break;
+            case false:
+            case "never":
+                ea = false;
+                break;
+            case "strict":
+            case "always":
+                ea = "strict";
+                break;
+            default:
+                fail$$1("Invalid value for 'enforceActions': '" + enforceActions + "', expected 'never', 'always' or 'observed'");
+        }
+        globalState$$1.enforceActions = ea;
+        globalState$$1.allowStateChanges = ea === true || ea === "strict" ? false : true;
     }
     if (computedRequiresReaction !== undefined) {
         globalState$$1.computedRequiresReaction = !!computedRequiresReaction;
@@ -1999,14 +2050,20 @@ function decorate$$1(thing, decorators) {
     process.env.NODE_ENV !== "production" &&
         invariant$$1(isPlainObject$$1(decorators), "Decorators should be a key value map");
     var target = typeof thing === "function" ? thing.prototype : thing;
-    for (var prop in decorators) {
-        var decorator = decorators[prop];
+    var _loop_1 = function (prop) {
+        var propertyDecorators = decorators[prop];
+        if (!Array.isArray(propertyDecorators)) {
+            propertyDecorators = [propertyDecorators];
+        }
         process.env.NODE_ENV !== "production" &&
-            invariant$$1(typeof decorator === "function", "Decorate: expected a decorator function for '" + prop + "'");
+            invariant$$1(propertyDecorators.every(function (decorator) { return typeof decorator === "function"; }), "Decorate: expected a decorator function or array of decorator functions for '" + prop + "'");
         var descriptor = Object.getOwnPropertyDescriptor(target, prop);
-        var newDescriptor = decorator(target, prop, descriptor);
+        var newDescriptor = propertyDecorators.reduce(function (accDescriptor, decorator) { return decorator(target, prop, accDescriptor); }, descriptor);
         if (newDescriptor)
             Object.defineProperty(target, prop, newDescriptor);
+    };
+    for (var prop in decorators) {
+        _loop_1(prop);
     }
     return thing;
 }
@@ -2033,7 +2090,7 @@ function extendObservableObjectWithProperties$$1(target, properties, decorators,
         if (decorators)
             for (var key in decorators)
                 if (!(key in properties))
-                    fail$1("Trying to declare a decorator for unspecified property '" + key + "'");
+                    fail$$1("Trying to declare a decorator for unspecified property '" + key + "'");
     }
     startBatch$$1();
     try {
@@ -2041,9 +2098,9 @@ function extendObservableObjectWithProperties$$1(target, properties, decorators,
             var descriptor = Object.getOwnPropertyDescriptor(properties, key);
             if (process.env.NODE_ENV !== "production") {
                 if (Object.getOwnPropertyDescriptor(target, key))
-                    fail$1("'extendObservable' can only be used to introduce new properties. Use 'set' or 'decorate' instead. The property '" + key + "' already exists on '" + target + "'");
+                    fail$$1("'extendObservable' can only be used to introduce new properties. Use 'set' or 'decorate' instead. The property '" + key + "' already exists on '" + target + "'");
                 if (isComputed$$1(descriptor.value))
-                    fail$1("Passing a 'computed' as initial property value is no longer supported by extendObservable. Use a getter or decorator instead");
+                    fail$$1("Passing a 'computed' as initial property value is no longer supported by extendObservable. Use a getter or decorator instead");
             }
             var decorator = decorators && key in decorators
                 ? decorators[key]
@@ -2051,7 +2108,7 @@ function extendObservableObjectWithProperties$$1(target, properties, decorators,
                     ? computedDecorator$$1
                     : defaultDecorator;
             if (process.env.NODE_ENV !== "production" && typeof decorator !== "function")
-                fail$1("Not a valid decorator for '" + key + "', got: " + decorator);
+                fail$$1("Not a valid decorator for '" + key + "', got: " + decorator);
             var resultDescriptor = decorator(target, key, descriptor, true);
             if (resultDescriptor // otherwise, assume already applied, due to `applyToInstance`
             )
@@ -2089,7 +2146,7 @@ function nodeToObserverTree(node) {
 var generatorId = 0;
 function flow$$1(generator) {
     if (arguments.length !== 1)
-        fail$1(process.env.NODE_ENV && "Flow expects one 1 argument and cannot be used as decorator");
+        fail$$1(process.env.NODE_ENV && "Flow expects one 1 argument and cannot be used as decorator");
     var name = generator.name || "<unnamed flow>";
     // Implementation based on https://github.com/tj/co/blob/master/index.js
     return function () {
@@ -2169,16 +2226,16 @@ function interceptReads$$1(thing, propOrHandler, handler) {
     }
     else if (isObservableObject$$1(thing)) {
         if (typeof propOrHandler !== "string")
-            return fail$1(process.env.NODE_ENV !== "production" &&
+            return fail$$1(process.env.NODE_ENV !== "production" &&
                 "InterceptReads can only be used with a specific property, not with an object in general");
         target = getAdministration$$1(thing, propOrHandler);
     }
     else {
-        return fail$1(process.env.NODE_ENV !== "production" &&
+        return fail$$1(process.env.NODE_ENV !== "production" &&
             "Expected observable map, object or array as first array");
     }
     if (target.dehancer !== undefined)
-        return fail$1(process.env.NODE_ENV !== "production" && "An intercept reader was already established");
+        return fail$$1(process.env.NODE_ENV !== "production" && "An intercept reader was already established");
     target.dehancer = typeof propOrHandler === "function" ? propOrHandler : handler;
     return function () {
         target.dehancer = undefined;
@@ -2213,13 +2270,13 @@ function _isComputed$$1(value, property) {
 }
 function isComputed$$1(value) {
     if (arguments.length > 1)
-        return fail$1(process.env.NODE_ENV !== "production" &&
+        return fail$$1(process.env.NODE_ENV !== "production" &&
             "isComputed expects only 1 argument. Use isObservableProp to inspect the observability of a property");
     return _isComputed$$1(value);
 }
 function isComputedProp$$1(value, propName) {
     if (typeof propName !== "string")
-        return fail$1(process.env.NODE_ENV !== "production" &&
+        return fail$$1(process.env.NODE_ENV !== "production" &&
             "isComputed expected a property name as second argument");
     return _isComputed$$1(value, propName);
 }
@@ -2230,7 +2287,7 @@ function _isObservable(value, property) {
     if (property !== undefined) {
         if (process.env.NODE_ENV !== "production" &&
             (isObservableMap$$1(value) || isObservableArray$$1(value)))
-            return fail$1("isObservable(object, propertyName) is not supported for arrays and maps. Use map.has or array.length instead.");
+            return fail$$1("isObservable(object, propertyName) is not supported for arrays and maps. Use map.has or array.length instead.");
         if (isObservableObject$$1(value)) {
             return value[$mobx$$1].values.has(property);
         }
@@ -2245,13 +2302,13 @@ function _isObservable(value, property) {
 }
 function isObservable$$1(value) {
     if (arguments.length !== 1)
-        fail$1(process.env.NODE_ENV !== "production" &&
+        fail$$1(process.env.NODE_ENV !== "production" &&
             "isObservable expects only 1 argument. Use isObservableProp to inspect the observability of a property");
     return _isObservable(value);
 }
 function isObservableProp$$1(value, propName) {
     if (typeof propName !== "string")
-        return fail$1(process.env.NODE_ENV !== "production" && "expected a property name as second argument");
+        return fail$$1(process.env.NODE_ENV !== "production" && "expected a property name as second argument");
     return _isObservable(value, propName);
 }
 
@@ -2262,8 +2319,11 @@ function keys$$1(obj) {
     if (isObservableMap$$1(obj)) {
         return Array.from(obj.keys());
     }
-    return fail$1(process.env.NODE_ENV !== "production" &&
-        "'keys()' can only be used on observable objects and maps");
+    if (isObservableArray$$1(obj)) {
+        return obj.map(function (_, index) { return index; });
+    }
+    return fail$$1(process.env.NODE_ENV !== "production" &&
+        "'keys()' can only be used on observable objects, arrays and maps");
 }
 function values$$1(obj) {
     if (isObservableObject$$1(obj)) {
@@ -2275,7 +2335,7 @@ function values$$1(obj) {
     if (isObservableArray$$1(obj)) {
         return obj.slice();
     }
-    return fail$1(process.env.NODE_ENV !== "production" &&
+    return fail$$1(process.env.NODE_ENV !== "production" &&
         "'values()' can only be used on observable objects, arrays and maps");
 }
 function entries$$1(obj) {
@@ -2288,7 +2348,7 @@ function entries$$1(obj) {
     if (isObservableArray$$1(obj)) {
         return obj.map(function (key, index) { return [index, key]; });
     }
-    return fail$1(process.env.NODE_ENV !== "production" &&
+    return fail$$1(process.env.NODE_ENV !== "production" &&
         "'entries()' can only be used on observable objects, arrays and maps");
 }
 function set$$1(obj, key, value) {
@@ -2328,7 +2388,7 @@ function set$$1(obj, key, value) {
         endBatch$$1();
     }
     else {
-        return fail$1(process.env.NODE_ENV !== "production" &&
+        return fail$$1(process.env.NODE_ENV !== "production" &&
             "'set()' can only be used on observable objects, arrays and maps");
     }
 }
@@ -2347,7 +2407,7 @@ function remove$$1(obj, key) {
         obj.splice(key, 1);
     }
     else {
-        return fail$1(process.env.NODE_ENV !== "production" &&
+        return fail$$1(process.env.NODE_ENV !== "production" &&
             "'remove()' can only be used on observable objects, arrays and maps");
     }
 }
@@ -2364,7 +2424,7 @@ function has$$1(obj, key) {
         return key >= 0 && key < obj.length;
     }
     else {
-        return fail$1(process.env.NODE_ENV !== "production" &&
+        return fail$$1(process.env.NODE_ENV !== "production" &&
             "'has()' can only be used on observable objects, arrays and maps");
     }
 }
@@ -2381,7 +2441,7 @@ function get$$1(obj, key) {
         return obj[key];
     }
     else {
-        return fail$1(process.env.NODE_ENV !== "production" &&
+        return fail$$1(process.env.NODE_ENV !== "production" &&
             "'get()' can only be used on observable objects, arrays and maps");
     }
 }
@@ -2479,7 +2539,7 @@ function trace$$1() {
         enterBreakPoint = args.pop();
     var derivation = getAtomFromArgs(args);
     if (!derivation) {
-        return fail$1(process.env.NODE_ENV !== "production" &&
+        return fail$$1(process.env.NODE_ENV !== "production" &&
             "'trace(break?)' can only be used inside a tracked computed value or a Reaction. Consider passing in the computed value or reaction explicitly");
     }
     if (derivation.isTracing === TraceMode$$1.NONE) {
@@ -2549,7 +2609,7 @@ function _when(predicate, effect, opts) {
 }
 function whenPromise(predicate, opts) {
     if (process.env.NODE_ENV !== "production" && opts && opts.onError)
-        return fail$1("the options 'onError' and 'promise' cannot be combined");
+        return fail$$1("the options 'onError' and 'promise' cannot be combined");
     var cancel;
     var res = new Promise(function (resolve, reject) {
         var disposer = _when(predicate, resolve, __assign({}, opts, { onError: reject }));
@@ -2610,7 +2670,7 @@ var objectProxyTraps = {
         return Reflect.ownKeys(target);
     },
     preventExtensions: function (target) {
-        fail$1("Dynamic observable objects cannot be frozen");
+        fail$$1("Dynamic observable objects cannot be frozen");
         return false;
     }
 };
@@ -2708,7 +2768,7 @@ var arrayTraps = {
         return false;
     },
     preventExtensions: function (target) {
-        fail$1("Observable arrays cannot be frozen");
+        fail$$1("Observable arrays cannot be frozen");
         return false;
     }
 };
@@ -3040,6 +3100,7 @@ var arrayExtensions = {
     }
 };
 [
+    "concat",
     "every",
     "filter",
     "forEach",
@@ -3297,7 +3358,7 @@ var ObservableMap$$1 = /** @class */ (function () {
             else if (isES6Map$$1(other))
                 other.forEach(function (value, key) { return _this.set(key, value); });
             else if (other !== null && other !== undefined)
-                fail$1("Cannot initialize map from " + other);
+                fail$$1("Cannot initialize map from " + other);
         });
         return this;
     };
@@ -3696,7 +3757,7 @@ function getAtom$$1(thing, property) {
     if (typeof thing === "object" && thing !== null) {
         if (isObservableArray$$1(thing)) {
             if (property !== undefined)
-                fail$1(process.env.NODE_ENV !== "production" &&
+                fail$$1(process.env.NODE_ENV !== "production" &&
                     "It is not possible to get index atoms from arrays");
             return thing[$mobx$$1].atom;
         }
@@ -3706,7 +3767,7 @@ function getAtom$$1(thing, property) {
                 return anyThing._keysAtom;
             var observable$$1 = anyThing._data.get(property) || anyThing._hasMap.get(property);
             if (!observable$$1)
-                fail$1(process.env.NODE_ENV !== "production" &&
+                fail$$1(process.env.NODE_ENV !== "production" &&
                     "the entry '" + property + "' does not exist in the observable map '" + getDebugName$$1(thing) + "'");
             return observable$$1;
         }
@@ -3716,10 +3777,10 @@ function getAtom$$1(thing, property) {
             thing[property]; // See #1072
         if (isObservableObject$$1(thing)) {
             if (!property)
-                return fail$1(process.env.NODE_ENV !== "production" && "please specify a property");
+                return fail$$1(process.env.NODE_ENV !== "production" && "please specify a property");
             var observable$$1 = thing[$mobx$$1].values.get(property);
             if (!observable$$1)
-                fail$1(process.env.NODE_ENV !== "production" &&
+                fail$$1(process.env.NODE_ENV !== "production" &&
                     "no observable property '" + property + "' found on the observable object '" + getDebugName$$1(thing) + "'");
             return observable$$1;
         }
@@ -3733,11 +3794,11 @@ function getAtom$$1(thing, property) {
             return thing[$mobx$$1];
         }
     }
-    return fail$1(process.env.NODE_ENV !== "production" && "Cannot obtain atom from " + thing);
+    return fail$$1(process.env.NODE_ENV !== "production" && "Cannot obtain atom from " + thing);
 }
 function getAdministration$$1(thing, property) {
     if (!thing)
-        fail$1("Expecting some object");
+        fail$$1("Expecting some object");
     if (property !== undefined)
         return getAdministration$$1(getAtom$$1(thing, property));
     if (isAtom$$1(thing) || isComputedValue$$1(thing) || isReaction$$1(thing))
@@ -3748,7 +3809,7 @@ function getAdministration$$1(thing, property) {
     initializeInstance$$1(thing);
     if (thing[$mobx$$1])
         return thing[$mobx$$1];
-    fail$1(process.env.NODE_ENV !== "production" && "Cannot obtain administration from " + thing);
+    fail$$1(process.env.NODE_ENV !== "production" && "Cannot obtain administration from " + thing);
 }
 function getDebugName$$1(thing, property) {
     var named;
@@ -3924,8 +3985,8 @@ but at least in this file we can magically reorder the imports with trial and er
  * - utils/   Utility stuff.
  *
  */
-if (typeof Proxy === "undefined") {
-    throw new Error("[mobx] MobX 5+ requires Proxy objects. If your environment doesn't support Proxy objects, please downgrade to MobX 4.");
+if (typeof Proxy === "undefined" || typeof Symbol === "undefined") {
+    throw new Error("[mobx] MobX 5+ requires Proxy and Symbol objects. If your environment doesn't support Proxy objects, please downgrade to MobX 4. For React Native Android, consider upgrading JSCore.");
 }
 try {
     // define process.env if needed
