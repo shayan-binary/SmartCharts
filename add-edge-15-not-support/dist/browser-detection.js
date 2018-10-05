@@ -214,9 +214,6 @@ function browserDetect(rootEleId, SupportedBrowsers){
             setTimeout(renderNotDetctedNotification, 200);
         }
     }
-
-
-    renderNotSupported();
 }
 
 browserDetect('root', {
