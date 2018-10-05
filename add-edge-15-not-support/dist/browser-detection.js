@@ -192,7 +192,7 @@ function browserDetect(rootEleId, SupportedBrowsers){
                 (
                     message.indexOf('[mobx] MobX 5+ requires Proxy objects') !== -1 ||
                     message.indexOf('not supported browser') !== -1 ||
-                    message.indexOf('not support') !== -1 
+                    message.indexOf('Use before declaration') !== -1 
                 ) && cqRoot
             ) {
             renderNotSupported();
