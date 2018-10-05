@@ -191,8 +191,7 @@ function browserDetect(rootEleId, SupportedBrowsers){
         if (
                 (
                     message.indexOf('[mobx] MobX 5+ requires Proxy objects') !== -1 ||
-                    message.indexOf('not supported browser') !== -1 ||
-                    message.indexOf('Use before declaration') !== -1 
+                    message.indexOf('not supported browser') !== -1 
                 ) && cqRoot
             ) {
             renderNotSupported();
@@ -212,9 +211,13 @@ function browserDetect(rootEleId, SupportedBrowsers){
                 throw new Error('not supported browser');
             }
         } else {
-            setTimeout(renderNotDetctedNotification, 200)
+            setTimeout(renderNotDetctedNotification, 200);
         }
     }
+
+
+    //renderNotSupported();
+    setTimeout(renderNotSupported, 200);
 }
 
 browserDetect('root', {
