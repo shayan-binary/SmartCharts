@@ -2,6 +2,7 @@ var cacheName = 'SmartCharts';
 var filesToCache = [
   './index.html',
   './dist/smartcharts.css',
+  './dist/browser-detection.js',
   './dist/babel-polyfill.min.js',
   './dist/chartiq.min.js',
   './dist/react.js',
