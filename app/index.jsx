@@ -33,15 +33,15 @@ if (window.location.host.endsWith('binary.com')) {
 }
 
 /* // PWA support is temporarily removed until its issues can be sorted out
+*/
 if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register(`${window.location.origin + window.location.pathname}sw.js`)
+    navigator.serviceWorker.register(`${(window.location.origin + window.location.pathname).replace('index.html','')}sw.js`)
         .then(() => {
             console.log('Service Worker Registered');
         }).catch((registrationError) => {
             console.log('SW registration failed: ', registrationError);
         });
 }
-*/
 
 configure({ enforceActions: 'observed' });
 

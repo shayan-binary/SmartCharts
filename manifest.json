@@ -14,7 +14,7 @@
       "sizes": "114x114",
       "type": "image/png"
     }, {
-      "src": "./dist/sass/favicons/apple-touch-icon-114x114.png",
+      "src": "./dist/sass/favicons/favicon-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
