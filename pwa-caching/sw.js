@@ -19,7 +19,7 @@ self.addEventListener('install', function(e) {
     .then(function(cache) {
       return cache.addAll(filesToCache);
     })
-    .catch( error =>  console.log('install error', error) )
+    .catch(error => console.log('install error', error))
   );
 });
 
@@ -34,32 +34,11 @@ self.addEventListener('fetch', function(event){
     .then(function(response){
       return response || fetch(event.request);
     })
-    .catch( error =>  console.log('fetch error', error) )
+    .catch(error => console.log('fetch error', error))
   );
 });
-
-// self.addEventListener('fetch', function(event) {
-//   event.respondWith(
-//     caches.match(event.request)
-//       .then(function(response) {
-//         if (response) {
-//           return response;
-//         } else {
-//           return fetch(event.request)
-//             .then(function(res) {
-//               return caches.open(CACHE_DYNAMIC_NAME)
-//                 .then(function(cache) {
-//                   cache.put(event.request.url, res.clone());
-//                   return res;
-//                 })
-//             })
-//             .catch(function(err) {       // fallback mechanism
-//               return caches.open(CACHE_CONTAINING_ERROR_MESSAGES)
-//                 .then(function(cache) {
-//                   return cache.match('/offline.html');
-//                 });
-//             });
-//         }
-//       })
-//   );
-// });  
+self.addEventListener('message', function (event) {
+  if (event.data.action === 'skipWaiting') {
+    self.skipWaiting();
+  }
+});
