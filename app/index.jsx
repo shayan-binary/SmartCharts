@@ -45,12 +45,38 @@ if (window.location.host.endsWith('binary.com')) {
 /* // PWA support is temporarily removed until its issues can be sorted out
 */
 if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register(`${(window.location.origin + window.location.pathname).replace('index.html','')}sw.js`)
-        .then(() => {
-            console.log('Service Worker Registered');
+    let newWorker;
+    let refreshing;
+
+    navigator.serviceWorker.register(`${(window.location.origin + window.location.pathname).replace('index.html', '')}sw.js`)
+        .then((reg) => {
+            console.log('Service Worker Registered', reg);
+            reg.addEventListener('updatefound', () => {
+                // An updated service worker has appeared in reg.installing!
+                newWorker = reg.installing;
+                newWorker.addEventListener('statechange', () => {
+                    // Has service worker state changed?
+                    switch (newWorker.state) {
+                    case 'installed':
+                        // There is a new service worker available, show the notification
+                        if (navigator.serviceWorker.controller) {
+                            alert('new update available');
+                        }
+                        break;
+                    default:
+                    }
+                });
+            });
         }).catch((registrationError) => {
             console.log('SW registration failed: ', registrationError);
         });
+    // The event listener that is fired when the service worker updates
+    // Here we reload the page
+    navigator.serviceWorker.addEventListener('controllerchange', function () {
+        if (!newWorker || refreshing) return;
+        window.location.reload();
+        refreshing = true;
+    });
 }
 
 configure({ enforceActions: 'observed' });

@@ -80,3 +80,4 @@ export default class ChartTitleStore {
         }
     }
 }
+alert('v0.0.1');
