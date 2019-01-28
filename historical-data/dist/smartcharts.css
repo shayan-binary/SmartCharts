@@ -294,7 +294,6 @@ html,body{-ms-touch-action:none;margin:0px}
 .smartcharts-mobile .cq-modal-dropdown .cq-menu-dropdown{height:auto;bottom:0;box-shadow:none;border-radius:0;width:100%;position:absolute;-webkit-transform:translateY(3em);transform:translateY(3em);border:none}
 .smartcharts-mobile .cq-modal-dropdown .cq-menu-dropdown.cq-menu-dropdown-enter-done,.smartcharts-mobile .cq-modal-dropdown .cq-menu-dropdown.cq-menu-dropdown-enter-active{-webkit-transform:translateY(0em);transform:translateY(0em)}
 .smartcharts-mobile .cq-modal-dropdown .cq-menu-dropdown .icon-close-menu{pointer-events:initial;opacity:1}
-.myEvents{position:absolute;text-align:center;width:20px;height:20px;line-height:20px;color:#fff;background-color:#0000ff}
 .cq-chart-unavailable{position:absolute;text-align:center;width:100%;top:50%;z-index:1;font-size:17px;color:#878787}
 .chart-line{position:absolute;z-index:35}
 .chart-line.horizontal{width:100%;left:0;font-size:10px}
