@@ -126,8 +126,8 @@ html,body{-ms-touch-action:none;margin:0px}
 .stx_panel_border{width:1px;color:#cccccc}
 .stx_solo_lit span{background-color:#b1b7b8;color:#ffffff;opacity:1}
 .stx_grid{width:1px;opacity:1;border-style:solid}
-.smartcharts-light .stx_grid{background:#fff;color:"#ff0000"}
-.smartcharts-dark .stx_grid{background:#101320;color:"#0000ff"}
+.smartcharts-light .stx_grid{background:#fff;color:rgba(0,0,0,0.04)}
+.smartcharts-dark .stx_grid{background:#101320;color:#191c31}
 .stx_grid_border{color:#999999;border-style:solid;opacity:0}
 .stx_line_chart{width:1px;border-top-style:dotted}
 .stx_bar_chart,.stx_bar_up,.stx_bar_down,.stx_bar_even{width:1px}
@@ -193,8 +193,8 @@ html,body{-ms-touch-action:none;margin:0px}
 .stx_market_session.pre{background-color:rgba(255,255,0,0.1)}
 .stx_market_session.post{background-color:rgba(0,0,255,0.2)}
 .stx_grid_dark{opacity:1;opacity:0.9;border-style:solid}
-.smartcharts-light .stx_grid_dark{color:"#ff0000"}
-.smartcharts-dark .stx_grid_dark{color:"#0000ff"}
+.smartcharts-light .stx_grid_dark{color:rgba(0,0,0,0.04)}
+.smartcharts-dark .stx_grid_dark{color:#191c31}
 .stx_yaxis,.stx_xaxis,.stx_xaxis_dark{font-size:10px;font-family:'Roboto'}
 .smartcharts-light .stx_yaxis,.smartcharts-light .stx_xaxis,.smartcharts-light .stx_xaxis_dark{color:#999cac}
 .smartcharts-dark .stx_yaxis,.smartcharts-dark .stx_xaxis,.smartcharts-dark .stx_xaxis_dark{color:#555975}
