@@ -20682,45 +20682,45 @@ function () {
       setTimeout(function () {
         var masterData = _this.stxx.masterData;
         var lastData = masterData[masterData.length - 1];
+        var times = []; // Make points
 
-        for (var i = 1; i <= 10; i++) {
-          var epoch = lastData.DT.getTime() - 1000 * i;
-          console.log(new Date(epoch));
+        for (var i = 1; i <= 3; i++) {
+          times.push(lastData.DT.getTime() + 60 * 1000 * (i * 2 - 1));
+        }
 
+        times.forEach(function (ts) {
+          // ### add bar
           _this.stxx.updateChartData({
-            DT: epoch // Date: (new Date(epoch)),
-            // Close: null,
-
+            DT: new Date(ts),
+            Close: null
           }, null, {
             useAsLastSale: true,
             fillGaps: true
           });
-        }
+        });
 
         _this.stxx.createDataSet();
 
         _this.stxx.draw();
 
         setTimeout(function () {
-          for (var _i = 0; _i <= 10; _i++) {
-            var _epoch = lastData.DT.getTime() - 1000 * _i;
-
+          times.forEach(function (ts, indx) {
             var newNode = document.getElementById('stxEventPrototype').cloneNode(true);
             newNode.id = null;
-            newNode.innerHTML = _i;
+            newNode.innerHTML = indx;
             CIQ.appendClassName(newNode, 'dividend');
             new CIQ.Marker({
               stx: _this.stxx,
               xPositioner: 'date',
-              x: new Date(_epoch),
+              x: new Date(ts),
               label: 'events',
               node: newNode
             });
-          }
+          });
 
           _this.stxx.draw();
         }, 800);
-      }, 1800);
+      }, 800);
     };
 
     this.chartStore = mainStore.chart;
