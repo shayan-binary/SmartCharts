@@ -20688,21 +20688,6 @@ function () {
           times.push(lastData.DT.getTime() + 60 * 1000 * (i * 2 - 1));
         }
 
-        times.forEach(function (ts) {
-          // ### add bar
-          _this.stxx.updateChartData({
-            DT: new Date(ts),
-            Close: null
-          }, null, {
-            useAsLastSale: true,
-            fillGaps: true
-          });
-        });
-
-        _this.stxx.createDataSet();
-
-        _this.stxx.draw();
-
         setTimeout(function () {
           times.forEach(function (ts, indx) {
             var newNode = document.getElementById('stxEventPrototype').cloneNode(true);
