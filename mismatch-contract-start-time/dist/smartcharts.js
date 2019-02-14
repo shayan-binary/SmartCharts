@@ -20684,15 +20684,14 @@ function () {
         var lastData = masterData[masterData.length - 1];
         var times = []; // Make points
 
-        for (var i = 1; i <= 3; i++) {
-          times.push(lastData.DT.getTime() + 60 * 1000 * (i * 2 - 1));
-        }
+        [1, 3, 5].forEach(function (x) {
+          times.push(lastData.DT.getTime() + 60 * 1000 * x);
+        });
         /**
          * ### Add Bar
          * try adding invisible bar in the placess which
          * there are no bar.
          */
-
 
         times.forEach(function (ts) {
           _this.stxx.updateChartData({
