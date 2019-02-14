@@ -20687,8 +20687,34 @@ function () {
         for (var i = 1; i <= 3; i++) {
           times.push(lastData.DT.getTime() + 60 * 1000 * (i * 2 - 1));
         }
+        /**
+         * ### Add Bar
+         * try adding invisible bar in the placess which
+         * there are no bar.
+         */
+
+
+        times.forEach(function (ts) {
+          _this.stxx.updateChartData({
+            DT: new Date(ts),
+            Close: null
+          }, null, {
+            useAsLastSale: true,
+            fillGaps: true
+          });
+        });
+
+        _this.stxx.createDataSet();
+
+        _this.stxx.draw();
 
         setTimeout(function () {
+          /**
+           * ### Add Marker
+           * adding marker on the points between interval range
+           * interval is 2 minues, so this code suppose to add
+           * marker within 1 minutes
+           */
           times.forEach(function (ts, indx) {
             var newNode = document.getElementById('stxEventPrototype').cloneNode(true);
             newNode.id = null;
