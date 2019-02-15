@@ -20698,7 +20698,6 @@ function () {
             DT: new Date(ts),
             Close: null
           }, null, {
-            useAsLastSale: true,
             fillGaps: true
           });
         });
@@ -20721,7 +20720,7 @@ function () {
             CIQ.appendClassName(newNode, 'dividend');
             new CIQ.Marker({
               stx: _this.stxx,
-              xPositioner: 'date',
+              yPositioner: 'top',
               x: new Date(ts),
               label: 'events',
               node: newNode
