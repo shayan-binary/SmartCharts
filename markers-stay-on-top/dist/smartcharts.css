@@ -312,12 +312,12 @@ html,body{-ms-touch-action:none;margin:0px}
 .draggable.chart-line:hover.horizontal{cursor:ns-resize}
 .draggable.chart-line:hover.vertical{cursor:ew-resize}
 .hide-pricelines>.chart-line.horizontal{display:none}
-.drag-price{display:block;height:25px;top:-11px;position:absolute;right:0px;border-radius:5px;border:1px solid inherit}
+.drag-price{display:block;height:25px;top:-11px;position:absolute;right:0px;border-radius:5px;border:1px solid inherit;z-index:106;margin:-11px 0 0 0}
 .no-touch .price-arrow span{position:absolute;top:4px;left:6px;display:block;width:15px;height:15px;background-position:-4px -488px;opacity:0;transition:opacity 0.2s}
 .no-touch .chart-line:hover .price-arrow{width:20px;height:23px}
 .no-touch .chart-line:hover .price-arrow span{opacity:1}
 .price{font-size:1.4em;font-weight:300;display:block;padding:1px 6px;line-height:23px;overflow:hidden}
-.draggable .price{padding-right:16px}
+.draggable .price{padding-right:16px;cursor:ns-resize}
 .draggable .price:after{content:'\2261';font-size:25px;position:absolute;right:1px;top:-1px;-webkit-transform:scaleX(0.8);transform:scaleX(0.8)}
 .shade.hidden{opacity:0}
 .shade{position:absolute;width:100%;right:0px;opacity:0.3;transition:opacity 0.1s ease-out}
@@ -349,7 +349,7 @@ html,body{-ms-touch-action:none;margin:0px}
 
 @-webkit-keyframes move-background{from{-webkit-transform:translateX(0)}to{-webkit-transform:translateX(46px)}}@keyframes move-background{from{-webkit-transform:translateX(0);transform:translateX(0)}to{-webkit-transform:translateX(46px);transform:translateX(46px)}}.pagination{top:0;bottom:0 !important}.pagination__loader{color:#000;position:relative;height:100%;text-align:center;overflow:hidden;margin-left:-10000px;opacity:0.7}.pagination__loader-background{position:absolute;left:-46px;right:0;top:0;bottom:0;z-index:-1;-webkit-animation-name:move-background;-webkit-animation-duration:0.6s;-webkit-animation-timing-function:linear;-webkit-animation-iteration-count:infinite;animation-name:move-background;animation-duration:0.6s;animation-timing-function:linear;animation-iteration-count:infinite}.smartcharts-light .pagination__loader-background{background:-webkit-repeating-linear-gradient(145deg, rgba(255,0,0,0) 1px, #f4f4f6 2px, #f4f4f6 11px, rgba(255,0,0,0) 12px, rgba(255,0,0,0) 20px);background:repeating-linear-gradient(-55deg, rgba(255,0,0,0) 1px, #f4f4f6 2px, #f4f4f6 11px, rgba(255,0,0,0) 12px, rgba(255,0,0,0) 20px)}.smartcharts-dark .pagination__loader-background{background:-webkit-repeating-linear-gradient(145deg, rgba(255,0,0,0) 1px, #202641 2px, #202641 11px, rgba(255,0,0,0) 12px, rgba(255,0,0,0) 20px);background:repeating-linear-gradient(-55deg, rgba(255,0,0,0) 1px, #202641 2px, #202641 11px, rgba(255,0,0,0) 12px, rgba(255,0,0,0) 20px)}
 
-#root{display:flex}.grid{position:relative;display:grid;grid-template-rows:auto auto;grid-template-columns:repeat(12, [col-start] 1fr);width:100%;height:100vh}.grid .chart-instance{position:relative;grid-column:col-start/span 12;height:500px}.grid .side-chart{grid-column-start:7;grid-column-end:span 6;position:relative}.grid .bottom-chart{position:relative;grid-column:col-start/span 12}.grid .bottom-blob{font-family:sans-serif;grid-column:col-start/span 12;background-color:#dfdfdf;text-align:center;line-height:100px;transition:line-height 0.5s;vertical-align:middle}.grid .bottom-blob input[type='number']{width:60px}.chart-marker-line{background:#ff9900;width:3px;height:100%;position:absolute;top:0px}.chart-marker-circle-o{border-radius:50%;border:3px solid #5e1cff;padding:10px;background:transparent;margin:0 0px -8px -8px}
+#root{display:flex}.grid{position:relative;display:grid;grid-template-rows:auto auto;grid-template-columns:repeat(12, [col-start] 1fr);width:100%;height:100vh}.grid .chart-instance{position:relative;grid-column:col-start/span 12;height:500px}.grid .side-chart{grid-column-start:7;grid-column-end:span 6;position:relative}.grid .bottom-chart{position:relative;grid-column:col-start/span 12}.grid .bottom-blob{font-family:sans-serif;grid-column:col-start/span 12;background-color:#dfdfdf;text-align:center;line-height:100px;transition:line-height 0.5s;vertical-align:middle}.grid .bottom-blob input[type='number']{width:60px}.chart-marker-line{background:#ff9900;width:3px;height:100%;position:absolute;top:0px}.chart-marker-circle{border-radius:50%;border:3px solid #5e1cff;padding:10px;background:transparent;margin:0 0px -8px -8px}
 
 
 /*# sourceMappingURL=smartcharts.css.map*/
