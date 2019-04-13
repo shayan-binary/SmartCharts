@@ -198,7 +198,7 @@ html,body{-ms-touch-action:none;margin:0px}
 .stx_watermark{font-size:16px;font-family:'Helvetica'}
 .stx_fib_levels{font-size:12px;font-family:'Helvetica';color:transparent}
 .stx-holder{display:block;position:absolute;overflow:hidden;z-index:4}
-.stx-subholder{position:absolute;overflow:hidden}
+.stx-subholder{position:absolute}
 .stx_market_session.divider{background-color:rgba(0,255,0,0.8);width:1px}
 .stx_market_session.pre{background-color:rgba(255,255,0,0.1)}
 .stx_market_session.post{background-color:rgba(0,0,255,0.2)}
@@ -313,11 +313,11 @@ html,body{-ms-touch-action:none;margin:0px}
 .chart-line.horizontal:hover{z-index:105}
 .chart-line.horizontal.draggable>.draggable-area{height:20px;top:-8px;position:absolute;width:100%}
 .chart-line.horizontal.draggable>.draggable-area:hover{background:rgba(0,0,0,0.05)}
-.chart-line.horizontal .drag-line{height:2px;float:left;width:100%;margin-left:-10px;position:relative;border-color:inherit;border-top-width:2px}
+.chart-line.horizontal .drag-line{height:2px;float:left;width:100%;position:relative;border-color:inherit;border-top-width:2px}
 .draggable.chart-line:hover.horizontal{cursor:ns-resize}
 .draggable.chart-line:hover.vertical{cursor:ew-resize}
 .hide-pricelines>.chart-line.horizontal{display:none}
-.drag-price{display:block;height:24px;top:-11px;position:absolute;right:0px;border:1px solid inherit;z-index:107;margin:-11px 0 0 0}
+.drag-price{display:block;height:24px;top:-11px;position:absolute;right:-50px;border:1px solid inherit;z-index:107;margin:-11px 0 0 0;min-width:52px}
 .drag-price:first-child{z-index:108}
 .drag-price.hidden{display:none}
 .no-touch .price-arrow span{position:absolute;top:4px;left:6px;display:block;width:15px;height:15px;background-position:-4px -488px;opacity:0;transition:opacity 0.2s}
