@@ -120,7 +120,7 @@ html,body{-ms-touch-action:none;margin:0px}
 .smartcharts-light .stx-float-price,.smartcharts-light .stx-float-date{background-color:rgba(127,131,151,0.88)}
 .smartcharts-dark .stx-float-price,.smartcharts-dark .stx-float-date{background-color:#2a3052}
 .stx-float-price{border-radius:3px}
-.stx-float-date{position:absolute;font-size:12px;font-family:'Helvetica';z-index:3;padding:3px 6px;text-align:center;width:auto;height:18px;line-height:18px}
+.stx-float-date{position:absolute;font-size:12px;font-family:'Helvetica';z-index:3;padding:3px 6px;text-align:center;width:auto;height:18px;line-height:18px;font-weight:bold}
 .stx_crosshair{position:absolute;z-index:1}
 .smartcharts-light .stx_crosshair{background-color:rgba(127,131,151,0.32)}
 .smartcharts-dark .stx_crosshair{background-color:rgba(127,131,151,0.3)}
