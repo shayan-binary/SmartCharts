@@ -280,7 +280,7 @@ html,body{-ms-touch-action:none;margin:0px}
 .smartcharts .smartcharts-mobile{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
 .smartcharts .cq-chart-control-left .cq-top-ui-widgets{left:90px}
 .smartcharts .cq-chart-control-left .cq-notifications{right:100px}
-.smartcharts--widget .home{display:none !important}
+.smartcharts--navigation-widget .home{display:none !important}
 .smartcharts--has-markers .stx-subholder{z-index:108 !important}
 .ciq-menu{position:relative}
 .smartcharts-light .ciq-menu{color:rgba(0,0,0,0.8)}
