@@ -6,7 +6,6 @@ import Theme from '../../sass/_themes.scss';
 class ChartState {
     @observable granularity;
     @observable chartType;
-    @observable prevChartType;
     @observable startEpoch;
     @observable startEpochMargin;
     @observable endEpoch;
@@ -24,10 +23,7 @@ class ChartState {
     @observable isOnPagination = false;
     @observable paginationEndEpoch;
     @observable isChartClosed = false;
-    @observable shouldMinimiseLastDigits = false;
     @observable isStaticChart = false;
-    @observable refreshActiveSymbols;
-    @observable hasReachedEndOfData = false;
     chartControlsWidgets;
 
     get comparisonStore() { return this.mainStore.comparison; }
@@ -53,7 +49,6 @@ class ChartState {
         this.chartStore.feed.onPagination(this.setOnPagination.bind(this));
 
         this.granularity = this.chartStore.granularity;
-        this.stxx.maxMasterDataSize = this.chartStore.getMaxMasterDataSize(this.granularity);
     };
 
     @action.bound updateProps({
@@ -70,7 +65,6 @@ class ChartState {
         granularity,
         margin = 0,
         onExportLayout,
-        refreshActiveSymbols,
         removeAllComparisons,
         scrollToEpoch,
         scrollToEpochOffset = 0,
@@ -95,12 +89,6 @@ class ChartState {
             if (this.mainStore.chart && this.mainStore.chart.feed) {
                 this.mainStore.chart.feed.onMasterDataUpdate(this.scrollChartToLeft);
             }
-        }
-
-        if (this.chartStore.activeSymbols
-            && (this.refreshActiveSymbols !== refreshActiveSymbols)) {
-            this.refreshActiveSymbols = refreshActiveSymbols;
-            this.chartStore.activeSymbols.retrieveActiveSymbols(true);
         }
 
         this.rootNode = this.mainStore.chart.rootNode;
@@ -137,9 +125,6 @@ class ChartState {
             this.granularity = granularity === null ? undefined : granularity;
         }
         if (this.chartType !== chartType && this.context) {
-            if (chartType === 'table')
-                this.prevChartType = this.chartTypeStore.type.id;
-
             this.chartType = chartType;
             this.chartTypeStore.setType(chartType);
         }
@@ -199,10 +184,6 @@ class ChartState {
             this.stxx.isAutoScale = this.settings && settings.isAutoScale !== false;
             this.stxx.draw();
         }
-    }
-
-    @action.bound hasReachedEndOfData(hasReachedEndOfData) {
-        this.hasReachedEndOfData = hasReachedEndOfData;
     }
 
     @action.bound setChartClosed(isClosed) {
@@ -265,7 +246,6 @@ class ChartState {
     }
 
     @action.bound setOnPagination({ end }) {
-        this.stxx.chart.isScrollLocationChanged = true;
         this.isOnPagination     = !this.isOnPagination;
         this.paginationEndEpoch = this.isOnPagination ? end : null;
     }
@@ -277,10 +257,6 @@ class ChartState {
                 this.chartStatusListener(isChartReady);
             }
         }
-    }
-
-    @action.bound setShouldMinimiseLastDigit(status) {
-        this.shouldMinimiseLastDigits = status;
     }
 
     saveLayout() {
@@ -543,17 +519,6 @@ class ChartState {
     scrollListener({ grab }) {
         if (grab && this.stxx.chart.lockScroll) {
             this.stxx.chart.lockScroll = false;
-        }
-        if (this.stxx && this.stxx.chart) {
-            const dataSegment = this.stxx.chart.dataSegment;
-            const whiteSpace = this.chartStore.isMobile ? 50 : 150;
-            if (this.stxx.masterData.length < this.stxx.chart.maxTicks - whiteSpace) {
-                this.stxx.minimumLeftBars = this.stxx.chart.maxTicks - whiteSpace;
-            } else if (dataSegment) {
-                const hasReachedRight = this.stxx.chart.scroll <= this.stxx.chart.maxTicks - 1;
-                const noMoreScroll = this.hasReachedEndOfData || (this.stxx.masterData.length === this.stxx.maxMasterDataSize);
-                this.stxx.minimumLeftBars = noMoreScroll && !hasReachedRight ? this.stxx.chart.maxTicks : 2;
-            }
         }
     }
 }
